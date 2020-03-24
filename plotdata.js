@@ -1,12 +1,13 @@
 function makeplot() {
   Plotly.d3.csv("https://raw.githubusercontent.com/daenuprobst/covid19-cases-switzerland/master/covid19_cases_switzerland.csv", 
-  function(data){ processData(data) 
-  } );
+  function(data){ 
+    processData(data) 
+  });
 };
 
 function processData(allRows) {
+  //console.log(allRows);
 
-  console.log(allRows);
   var x = [], y = [], standard_deviation = [];
 
   for (var i=0; i<allRows.length; i++) {
@@ -14,18 +15,33 @@ function processData(allRows) {
     x.push( row['Date'] );
     y.push( row['CH'] );
   }
-  console.log( 'X',x, 'Y',y, 'SD',standard_deviation );
+
+  //console.log( 'X',x, 'Y',y, 'SD',standard_deviation );
   makePlotly( x, y, standard_deviation );
-}
+};
 
 function makePlotly( x, y, standard_deviation ){
-  var plotDiv = document.getElementById("plot");
-  var traces = [{
+  var plotDiv = document.getElementById("plotdiv");
+  var trace = [{
     x: x,
-    y: y
+    y: y,
+    line: {
+      shape: 'spline'
+    }
   }];
 
-  Plotly.newPlot('plot', traces,
-    {title: 'COVID-19 Confirmed cases per day in Switzerland <br> Data: https://raw.githubusercontent.com/daenuprobst/covid19-cases-switzerland/master/covid19_cases_switzerland.csv'});
+  var conf = {
+    responsive: true,
+    displayModeBar: false
+  };
+
+  var layout = {
+    title: 'COVID-19 confirmed cases in Switzerland',
+    font: { size: 18 },
+    height: 800,
+    autosize: true
+  };
+
+  Plotly.newPlot('plotdiv', trace, layout, conf);
 };
-  makeplot();
+makeplot();
