@@ -1,7 +1,7 @@
 function makeplot() {
   Plotly.d3.csv("https://raw.githubusercontent.com/daenuprobst/covid19-cases-switzerland/master/covid19_cases_switzerland.csv", 
-  function(data){ 
-    processData(data) 
+  function(data) {
+    processData(data)
   });
 };
 
@@ -21,7 +21,8 @@ function processData(allRows) {
 };
 
 function makePlotly( x, y, standard_deviation ){
-  var plotDiv = document.getElementById("plotdiv");
+  var plotdiv = document.getElementById("plot");
+  //console.log(plotdiv);
   var trace = [{
     x: x,
     y: y,
@@ -38,10 +39,17 @@ function makePlotly( x, y, standard_deviation ){
   var layout = {
     title: 'COVID-19 confirmed cases in Switzerland',
     font: { size: 18 },
-    height: 800,
-    autosize: true
+    height: 500,
+    width: 800,
+    autosize: true,
+    xaxis: {
+      tickangle: 45,
+    },
+    yaxis: {
+      title: ''
+    }
   };
 
-  Plotly.newPlot('plotdiv', trace, layout, conf);
+  Plotly.newPlot(plotdiv, trace, layout, conf);
 };
 makeplot();
