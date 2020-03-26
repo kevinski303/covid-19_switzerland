@@ -1,18 +1,18 @@
-var csvdata1 = "https://raw.githubusercontent.com/daenuprobst/covid19-cases-switzerland/master/covid19_cases_switzerland.csv";
-var csvdata2 = "https://raw.githubusercontent.com/daenuprobst/covid19-cases-switzerland/master/covid19_fatalities_switzerland.csv";
+var csv1 = "https://raw.githubusercontent.com/daenuprobst/covid19-cases-switzerland/master/covid19_cases_switzerland.csv"; 
+var csv2 = "https://raw.githubusercontent.com/daenuprobst/covid19-cases-switzerland/master/covid19_fatalities_switzerland.csv";
 
-function makeplot() {
-  Plotly.d3.csv(csvdata1, function(data1) {
-    processData(data1);
-    console.log(data1);
+makeData(csv1)
+
+function makeData(csv) {
+  Plotly.d3.csv(csv, function(data) {
   });
-  Plotly.d3.csv(csvdata2, function(data2) {
-  });
+  return data;
 };
+
+processData(data1);
 
 function processData(allRows) {
   
-  //console.log(allRows);
   var xDate = [], yCH = [], standard_deviation = [];
 
   for (var i=0; i<allRows.length; i++) {
@@ -20,14 +20,13 @@ function processData(allRows) {
     xDate.push( row['Date'] );
     yCH.push( row['CH'] );
   }
-  //console.log( 'X',xDate, 'Y',yCH, 'Y2',yBE, 'SD',standard_deviation );
   makePlotly( xDate, yCH, standard_deviation);
 };
 
 function makePlotly( xDate, yCH){
-  var plotDiv = document.getElementById("plot");
+  var plotDiv = document.getElementById("plotTotalCases");
   var trace1 = {x:xDate, y:yCH, line: { shape: 'spline' }}
-  var trace2 = {x:xDate}
+  var trace2 = {}
   var traces = [ trace1, trace2 ];
   var conf = { responsive: true, displayModeBar: false };
   var layout = { title: '', font: { size: 18 }, height: 500, width: 800, autosize: true, xaxis: { tickangle: 45, } };
